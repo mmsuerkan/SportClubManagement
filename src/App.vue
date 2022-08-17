@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main id="main" :style="{background: $vuetify.theme.themes[theme].background}">
       <router-link to="/">Home </router-link> |
       <router-link to="/list">Player List </router-link>
       <router-view />
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+  computed:{
+    theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+    }
+  }
 };
 </script>
