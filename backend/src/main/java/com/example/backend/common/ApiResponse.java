@@ -1,12 +1,17 @@
 package com.example.backend.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class ApiResponse {
-    private final boolean success;
-    private final String message;
+    private  boolean success;
+    private  String message;
 
 
 }

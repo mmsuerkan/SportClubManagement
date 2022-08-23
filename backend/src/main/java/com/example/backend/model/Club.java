@@ -9,18 +9,16 @@ import java.util.Set;
 @Entity
 @Table(name = "club")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String name;
 
     private String branchName;
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> users = new LinkedHashSet<>();
-
 
 }

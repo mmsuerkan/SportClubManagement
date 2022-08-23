@@ -1,6 +1,9 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import javax.persistence.*;
@@ -8,11 +11,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Data
+@Getter
+@Setter
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -26,7 +31,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;
 

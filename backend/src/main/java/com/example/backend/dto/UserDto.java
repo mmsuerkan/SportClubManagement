@@ -1,14 +1,20 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
+@Getter
+@Setter
 public class UserDto {
 
-    private String name;
-    private String lastname;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private Long club_id;
 
 }
