@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "first_name")
@@ -30,10 +30,5 @@ public class User {
 
     @Column(name = "password")
     private String password;
-
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.ALL)
-    @JoinColumn(name = "club_id", nullable = false)
-    private Club club;
 
 }
