@@ -11,8 +11,10 @@ delete from club_db.public.inventory where id > 0;
 delete from club_db.public.club where id > 0;
 
 insert into club(id, name) VALUES (1,'Anadolu Efes');
-insert into inventory(id,name)VALUES(1,'Efes-Inventory');
+insert into inventory(id,name)VALUES(1,'Türkkonut-Efes-Inventory');
+insert into inventory(id,name)VALUES(2,'Incek-Efes-Inventory');
 insert into branch(id,name, club_id, inventory_id) VALUES (1,'Türkkonut-Efes',1,1);
+insert into branch(id,name, club_id, inventory_id) VALUES (2,'Incek-Efes',1,2);
 
 
 insert into coordinator(id, club_id, name, surname) VALUES (1,1,'Gökhan','Dönmez');
