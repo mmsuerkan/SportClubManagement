@@ -19,6 +19,8 @@ insert into branch(id,name, club_id, inventory_id) VALUES (2,'Incek-Efes',1,2);
 
 insert into coordinator(id, club_id, name, surname) VALUES (1,1,'Gökhan','Dönmez');
 insert into trainer(id, branch_id, coordinator_id, name, surname) VALUES (1,1,1,'Özge','Koç');
+insert into trainer(id, branch_id, coordinator_id, name, surname) VALUES (2,1,1,'Gökce','Gecikli');
+
 
 
 insert into groups(id, group_name, branch_id) VALUES (1,'12-13 Group',1);

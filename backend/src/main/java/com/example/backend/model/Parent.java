@@ -1,21 +1,19 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "parent")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Parent {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -26,13 +24,19 @@ public class Parent {
     private String surname;
 
     @ManyToMany(mappedBy = "parents")
-    private Set<Student> students = new LinkedHashSet<>();
+    @JsonManagedReference
+    private List<Student> students = new ArrayList<>();
 
-    public Set<Student> getStudents() {
-        return students;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Parent parent = (Parent) o;
+        return id != null && Objects.equals(id, parent.id);
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -32,7 +32,8 @@ public class UserService {
 
     public void updateUser(Long updatedUserId,User updatedUser){
 
-        User oldUser = userRepository.findById(updatedUser.getId()).get();
+        User oldUser = userRepository.findById(updatedUserId).get();
+
         updatedUser.setId(oldUser.getId());
         userRepository.save(updatedUser);
 

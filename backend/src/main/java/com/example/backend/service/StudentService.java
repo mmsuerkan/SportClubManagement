@@ -1,18 +1,25 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.StudentDto;
 import com.example.backend.model.Coordinator;
+import com.example.backend.model.Group;
 import com.example.backend.model.Student;
 import com.example.backend.repository.CoordinatorRepository;
+import com.example.backend.repository.GroupRepository;
 import com.example.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     public List<Student> listAllStudent(){
         return studentRepository.findAll();
@@ -26,15 +33,34 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public void addStudent(Student newStudent){
-        studentRepository.save(newStudent);
+    public void addStudent(StudentDto studentDto){
+
+        Student student = new Student();
+
+        student.setId(studentDto.getId());
+        student.setName(studentDto.getName());
+        student.setSurname(studentDto.getSurname());
+        student.setAge(studentDto.getAge());
+        student.setHeight(studentDto.getHeight());
+        student.setWeight(studentDto.getWeight());
+        student.setIsActive(studentDto.getIsActive());
+        student.setGroup(groupRepository.findById(studentDto.getGroupId()).get());
+        studentRepository.save(student);
     }
 
-    public void updateStudent(Long updatedStudentId,Student updatedStudent){
+    public void updateStudent(Long updatedStudentId,StudentDto studentDto){
 
-        Student oldStudent = studentRepository.findById(updatedStudent.getId()).get();
-        updatedStudent.setId(oldStudent.getId());
-        studentRepository.save(updatedStudent);
+        Student updateStudent = new Student();
+
+        updateStudent.setId(updatedStudentId);
+        updateStudent.setName(studentDto.getName());
+        updateStudent.setSurname(studentDto.getSurname());
+        updateStudent.setAge(studentDto.getAge());
+        updateStudent.setWeight(studentDto.getWeight());
+        updateStudent.setHeight(studentDto.getHeight());
+        updateStudent.setIsActive(studentDto.getIsActive());
+        updateStudent.setGroup(groupRepository.findById(studentDto.getGroupId()).get());
+        studentRepository.save(updateStudent);
 
     }
 }

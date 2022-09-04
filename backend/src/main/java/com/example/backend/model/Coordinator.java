@@ -1,21 +1,26 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "coordinator")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Coordinator {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -25,26 +30,25 @@ public class Coordinator {
     @Column(name = "surname")
     private String surname;
 
-    @OneToMany(mappedBy = "coordinator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Trainer> trainers = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "coordinator_id")
+    @JsonManagedReference
+    private Set<Trainer> trainers;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "club_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Club club;
 
-    public Club getClub() {
-        return club;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Coordinator that = (Coordinator) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
-    public void setClub(Club club) {
-        this.club = club;
-    }
-
-    public Set<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(Set<Trainer> trainers) {
-        this.trainers = trainers;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

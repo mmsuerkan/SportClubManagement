@@ -1,6 +1,7 @@
 package com.example.backend.controllers;
 
 import com.example.backend.common.ApiResponse;
+import com.example.backend.dto.ParentDto;
 import com.example.backend.model.Coordinator;
 import com.example.backend.model.Parent;
 import com.example.backend.service.CoordinatorService;
@@ -28,16 +29,16 @@ public class ParentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addCoordinator(@RequestBody Parent parent) {
+    public ResponseEntity<ApiResponse> addParent(@RequestBody ParentDto parentDto) {
 
-        parentService.addParent(parent);
+        parentService.addParent(parentDto);
         return new ResponseEntity<>(new ApiResponse(true, "Parent has been added"), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{parentID}")
-    public ResponseEntity<ApiResponse> updateCoordinator(@PathVariable("parentID") Long parentID, @RequestBody Parent parent) {
+    public ResponseEntity<ApiResponse> updateParent(@PathVariable("parentID") Long parentID, @RequestBody ParentDto parentDto) {
 
-        parentService.updateParent(parentID, parent);
+        parentService.updateParent(parentID, parentDto);
         return new ResponseEntity<>(new ApiResponse(true, "Parent has been updated"), HttpStatus.OK);
 
     }

@@ -1,21 +1,19 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "student")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -38,29 +36,32 @@ public class Student {
     private Boolean isActive;
 
 
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "student_parents",
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "student_parent",
             joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "parents_id"))
-    private Set<Parent> parents = new LinkedHashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "parent_id")
+    )
+    @JsonBackReference
+    private List<Parent> parents = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "group_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    @JsonBackReference
     private Group group;
 
-    public Group getGroup() {
-        return group;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Student student = (Student) o;
+        return id != null && Objects.equals(id, student.id);
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public Set<Parent> getParents() {
-        return parents;
-    }
-
-    public void setParents(Set<Parent> parents) {
-        this.parents = parents;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

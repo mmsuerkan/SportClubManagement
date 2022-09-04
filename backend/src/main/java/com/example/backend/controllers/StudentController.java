@@ -1,6 +1,7 @@
 package com.example.backend.controllers;
 
 import com.example.backend.common.ApiResponse;
+import com.example.backend.dto.StudentDto;
 import com.example.backend.model.Club;
 import com.example.backend.model.Coordinator;
 import com.example.backend.model.Student;
@@ -22,23 +23,23 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Student>> getClubs() {
+    public ResponseEntity<List<Student>> getStudents() {
 
         List<Student> students = studentService.listAllStudent();
         return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addStudent(@RequestBody Student student) {
+    public ResponseEntity<ApiResponse> addStudent(@RequestBody StudentDto studentDto) {
 
-        studentService.addStudent(student);
+        studentService.addStudent(studentDto);
         return new ResponseEntity<>(new ApiResponse(true, "Student has been added"), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{studentId}")
-    public ResponseEntity<ApiResponse> updateStudent(@PathVariable("studentId") Long studentId, @RequestBody Student student) {
+    public ResponseEntity<ApiResponse> updateStudent(@PathVariable("studentId") Long studentId, @RequestBody StudentDto studentDto) {
 
-        studentService.updateStudent(studentId, student);
+        studentService.updateStudent(studentId, studentDto);
         return new ResponseEntity<>(new ApiResponse(true, "Student has been updated"), HttpStatus.OK);
 
     }

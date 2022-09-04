@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.ParentDto;
 import com.example.backend.model.Coordinator;
 import com.example.backend.model.Parent;
 import com.example.backend.repository.CoordinatorRepository;
@@ -26,15 +27,24 @@ public class ParentService {
         parentRepository.deleteById(id);
     }
 
-    public void addParent(Parent newClub){
-        parentRepository.save(newClub);
+    public void addParent(ParentDto parentDto){
+
+        Parent parent = new Parent();
+        parent.setId(parentDto.getId());
+        parent.setName(parentDto.getName());
+        parent.setSurname(parentDto.getSurname());
+
+        parentRepository.save(parent);
     }
 
-    public void updateParent(Long updatedParentId,Parent updatedParent){
+    public void updateParent(Long updatedParentId,ParentDto parentDto){
 
-        Parent oldParent = parentRepository.findById(updatedParent.getId()).get();
-        updatedParent.setId(oldParent.getId());
-        parentRepository.save(updatedParent);
+        Parent oldParent = parentRepository.findById(updatedParentId).get();
+
+        oldParent.setName(parentDto.getName());
+        oldParent.setSurname(parentDto.getSurname());
+
+        parentRepository.save(oldParent);
 
     }
 }

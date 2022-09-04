@@ -1,72 +1,58 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "branch")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Branch {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "club_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Club club;
 
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(name = "inventory_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "inventory_id")
     private Inventory inventory;
 
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Trainer> trainers = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "branch_id")
+    @JsonManagedReference
+    private Set<Trainer> trainers;
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Group> groups = new LinkedHashSet<>();
+    @OneToMany
+    @JoinColumn(name = "branch_id")
+    @JsonManagedReference
+    private Set<Group> groups;
 
-    public Set<Group> getGroups() {
-        return groups;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Branch branch = (Branch) o;
+        return id != null && Objects.equals(id, branch.id);
     }
 
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
-    }
-
-    public Set<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(Set<Trainer> trainers) {
-        this.trainers = trainers;
-    }
-
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public Club getClub() {
-        return club;
-    }
-
-    public void setClub(Club club) {
-        this.club = club;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

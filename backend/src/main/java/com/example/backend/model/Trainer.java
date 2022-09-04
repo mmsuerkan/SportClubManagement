@@ -1,19 +1,19 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "trainer")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Trainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -23,27 +23,26 @@ public class Trainer {
     @Column(name = "surname")
     private String surname;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "branch_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "coordinator_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Branch branch;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "coordinator_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "coordinator_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Coordinator coordinator;
 
-    public Coordinator getCoordinator() {
-        return coordinator;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Trainer trainer = (Trainer) o;
+        return id != null && Objects.equals(id, trainer.id);
     }
 
-    public void setCoordinator(Coordinator coordinator) {
-        this.coordinator = coordinator;
-    }
-
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

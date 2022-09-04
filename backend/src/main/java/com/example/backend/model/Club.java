@@ -1,46 +1,45 @@
 package com.example.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "club")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String name;
 
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Branch> branches = new LinkedHashSet<>();
+    @JsonManagedReference
+    private Set<Branch> branches;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Coordinator> coordinators = new LinkedHashSet<>();
+    @JsonManagedReference
+    private Set<Coordinator> coordinators;
 
-    public Set<Coordinator> getCoordinators() {
-        return coordinators;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Club club = (Club) o;
+        return id != null && Objects.equals(id, club.id);
     }
 
-    public void setCoordinators(Set<Coordinator> coordinators) {
-        this.coordinators = coordinators;
-    }
-
-
-    public Set<Branch> getBranches() {
-        return branches;
-    }
-
-    public void setBranches(Set<Branch> branches) {
-        this.branches = branches;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

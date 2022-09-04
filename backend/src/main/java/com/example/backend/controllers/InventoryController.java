@@ -1,6 +1,7 @@
 package com.example.backend.controllers;
 
 import com.example.backend.common.ApiResponse;
+import com.example.backend.dto.InventoryDto;
 import com.example.backend.model.Coordinator;
 import com.example.backend.model.Inventory;
 import com.example.backend.service.InventoryService;
@@ -19,16 +20,16 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Inventory>> getCoordinator() {
+    public ResponseEntity<List<InventoryDto>> getInventory() {
 
-        List<Inventory> inventories = inventoryService.listAllInventory();
-        return new ResponseEntity<List<Inventory>>(inventories, HttpStatus.OK);
+        List<InventoryDto> inventoryDtos = inventoryService.listAllInventory();
+        return new ResponseEntity<List<InventoryDto>>(inventoryDtos, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addInventory(@RequestBody Inventory inventory) {
+    public ResponseEntity<ApiResponse> addInventory(@RequestBody InventoryDto inventoryDto) {
 
-        inventoryService.addInventory(inventory);
+        inventoryService.addInventory(inventoryDto);
         return new ResponseEntity<>(new ApiResponse(true, "Inventory has been added"), HttpStatus.CREATED);
     }
 
