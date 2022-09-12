@@ -23,10 +23,10 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Student>> getStudents() {
+    public ResponseEntity<List<StudentDto>> getStudents() {
 
-        List<Student> students = studentService.listAllStudent();
-        return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
+        List<StudentDto> studentDtos = studentService.listAllStudent();
+        return new ResponseEntity<List<StudentDto>>(studentDtos, HttpStatus.OK);
     }
 
     @PostMapping("/add")

@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -40,28 +41,21 @@ public class Student {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "student_parent",
+    @JoinTable(
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "parent_id")
     )
     @JsonBackReference
     private List<Parent> parents = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
-    @JsonBackReference
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Student student = (Student) o;
-        return id != null && Objects.equals(id, student.id);
-    }
+//    @JoinColumn(name = "lesson_id")
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private Lesson lesson;
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

@@ -21,8 +21,16 @@ public class StudentService {
     @Autowired
     private GroupRepository groupRepository;
 
-    public List<Student> listAllStudent(){
-        return studentRepository.findAll();
+    public List<StudentDto> listAllStudent(){
+        List<StudentDto> studentDtos = new ArrayList<>();
+
+        List<Student> all = studentRepository.findAll();
+
+        for (Student student: all) {
+            studentDtos.add(new StudentDto(student.getName(),student.getSurname(),student.getAge(),student.getHeight(),student.getWeight(),student.getIsActive(),student.getGroup().getId()));
+        }
+        return studentDtos;
+
     }
 
     public Student getStudentById(Long id){
@@ -37,7 +45,6 @@ public class StudentService {
 
         Student student = new Student();
 
-        student.setId(studentDto.getId());
         student.setName(studentDto.getName());
         student.setSurname(studentDto.getSurname());
         student.setAge(studentDto.getAge());
