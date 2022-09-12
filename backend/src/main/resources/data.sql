@@ -11,6 +11,7 @@ delete from club_db.public.coordinator where id > 0;
 delete from club_db.public.branch where id > 0;
 delete from club_db.public.inventory where id > 0;
 delete from club_db.public.club where id > 0;
+delete from club_db.public.users where id > 0;
 
 insert into club_db.public.club(id, name) VALUES (1,'Anadolu Efes');
 insert into club_db.public.inventory(id,name)VALUES(1,'Türkkonut-Efes-Inventory');
