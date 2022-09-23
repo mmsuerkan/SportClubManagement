@@ -77,13 +77,13 @@ export default {
         {
           id: 2,
           text: "Koordinatörler",
-          path: "coordinators",
+          path: "/club/1/coordinators",
           icon: "mdi-account-group"
         },
         {
           id: 3,
           text: "Şubeler",
-          path: "branches",
+          path: "/club/1/branches",
           icon: "mdi-source-branch"
         }
       ]
