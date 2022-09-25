@@ -120,8 +120,10 @@
 </template>
 
 <script>
+
 import PanelHeader from "@/components/PanelHeader";
 
+import {getDatabase, ref, child,set,remove,onChildAdded,onChildRemoved,onChildChanged} from "firebase/database";
 export default {
   components: {PanelHeader},
   data () {
@@ -185,15 +187,24 @@ export default {
       })
     },
     save() {
+      const db = getDatabase();
+      const reference = ref(db, '/students/efes/turkkonut/10-11');
+
       if (this.editedIndex > -1) {
-        Object.assign(this.users[this.editedIndex], this.editedItem)
+       // Object.assign(this.users[this.editedIndex], this.editedItem)
+        set(child(reference, this.users[this.editedIndex].tckn), this.editedItem);
       } else {
-        this.users.push(this.editedItem)
+        console.log("push",this.editedItem);
+        set(child(reference, this.editedItem.tckn), this.editedItem);
+        //this.users.push(this.editedItem)
       }
       this.close()
     },
     deleteItemConfirm() {
-      this.users.splice(this.editedIndex, 1);
+      const db = getDatabase();
+      const reference = ref(db, '/students/efes/turkkonut/10-11');
+      //this.users.splice(this.editedIndex, 1);
+      remove(child(reference, this.editedItem.tckn));
       this.closeDelete()
     },
     closeDelete() {
@@ -204,10 +215,49 @@ export default {
       })
     }
   },
+  created() {
+    const db = getDatabase();
+    const reference = ref(db, 'students/efes/turkkonut/10-11');
+    onChildAdded(reference, (snapshot) => {
+      const data = snapshot.val();
+      this.users.push(data);
+    });
+    onChildRemoved(reference, (snapshot) => {
+      const data = snapshot.val();
+      this.users.splice(this.users.indexOf(data), 1);
+    });
+    onChildChanged(reference, (snapshot) => {
+      const data = snapshot.val();
+      this.users.splice(this.users.indexOf(data), 1);
+      this.users.push(data);
+    });
+  },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'Anka Spor Basketbol Okulları Kayıt Formu' : 'Öğrenci Bilgilerini Düzenle'
     },
   }
 }
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAXl00PzhSpPFfMzhDNxcPvSEMNFKBRYhs",
+  authDomain: "sportclubmanagement-b9725.firebaseapp.com",
+  projectId: "sportclubmanagement-b9725",
+  storageBucket: "sportclubmanagement-b9725.appspot.com",
+  messagingSenderId: "191724501308",
+  appId: "1:191724501308:web:336cade08b6bcc39a60639",
+  measurementId: "G-SLF67F6NDR"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// eslint-disable-next-line no-unused-vars
+const analytics = getAnalytics(app);
 </script>
