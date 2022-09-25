@@ -2,15 +2,22 @@
   <div class="home">
     <h1>Login</h1>
     <p>
-      <input type="text" v-model="username" placeholder="Username" />
+      <v-text-field
+        v-model="username"
+        label="Username"
+        required>
+      </v-text-field>
     </p>
     <p>
-      <input type="password" v-model="password" placeholder="Password" />
+      <v-text-field v-model="password"
+                    label="Username"
+                    required
+      type="password">
+      </v-text-field>
     </p>
     <p>
-      <button @click="login">Login</button>
+      <v-btn style="background-color: green" @click="login">Login</v-btn>
     </p>
-
   </div>
 </template>
 
@@ -68,3 +75,11 @@ export default {
   }
 }
 </script>
+<style>
+.home {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+
+}
+</style>
