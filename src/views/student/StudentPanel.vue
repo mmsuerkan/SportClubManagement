@@ -188,7 +188,7 @@ export default {
     },
     save() {
       const db = getDatabase();
-      const reference = ref(db, '/students/efes/turkkonut/10-11');
+      const reference = ref(db, 'students/1/1/1');
 
       if (this.editedIndex > -1) {
        // Object.assign(this.users[this.editedIndex], this.editedItem)
@@ -202,7 +202,7 @@ export default {
     },
     deleteItemConfirm() {
       const db = getDatabase();
-      const reference = ref(db, '/students/efes/turkkonut/10-11');
+      const reference = ref(db, 'students/1/1/1');
       //this.users.splice(this.editedIndex, 1);
       remove(child(reference, this.editedItem.tckn));
       this.closeDelete()
@@ -217,7 +217,8 @@ export default {
   },
   created() {
     const db = getDatabase();
-    const reference = ref(db, 'students/efes/turkkonut/10-11');
+    const reference = ref(db, 'students/1/1/1');
+    //const reference = ref(db, 'students/1/1/1');
     onChildAdded(reference, (snapshot) => {
       const data = snapshot.val();
       this.users.push(data);
