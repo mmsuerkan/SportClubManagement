@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       username: 'sportcmapp@gmail.com',
-      password: 'S102019m',
+      password: 'S102019m*',
     }
   },
   methods: {

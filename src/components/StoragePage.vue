@@ -83,7 +83,7 @@ export default {
       const storage = getStorage(app);
 
       // eslint-disable-next-line no-unused-vars
-      uploadBytes(ref(storage, 'car/'), this.image).then((snapshot) => {
+      uploadBytes(ref(storage, 'car/car'), this.image).then((snapshot) => {
         console.log('Uploaded a blob or file!');
       });
     },
