@@ -8,6 +8,8 @@ import CoordinatorPanel from "@/views/coordinator/CoordinatorPanel";
 import GroupPanel from "@/views/group/GroupPanel";
 import StudentPanel from "@/views/student/StudentPanel";
 
+import StoragePage from "@/components/StoragePage";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -40,6 +42,11 @@ const routes = [
     path: '/groups/:groupid/students',
     name: 'Students Page',
     component: StudentPanel
+  },
+  {
+    path: '/storage',
+    name: 'Storage',
+    component: StoragePage
   }
 ]
 

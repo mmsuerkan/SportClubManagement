@@ -85,6 +85,18 @@ export default {
           text: "Şubeler",
           path: "/club/1/branches",
           icon: "mdi-source-branch"
+        },
+        {
+          id: 4,
+          text: "Storage",
+          path: "/storage",
+          icon: "mdi-cloud"
+        },
+        {
+          id: 5,
+          text: "Functions",
+          path: "/functions",
+          icon: "mdi-lambda"
         }
       ]
     }
