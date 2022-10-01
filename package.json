@@ -12,6 +12,8 @@
     "cors": "^2.8.5",
     "firebase": "^9.10.0",
     "moment": "^2.29.4",
+    "swal": "^0.1.0",
+    "sweetalert": "^2.1.2",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.1",
     "vue-router": "^3.2.0",

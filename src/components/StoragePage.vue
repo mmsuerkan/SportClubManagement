@@ -42,6 +42,7 @@
 
 <script>
 import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
 import {getStorage,ref,uploadBytes,listAll} from "firebase/storage";
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -62,7 +63,9 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Storage and get a reference to the service
 // eslint-disable-next-line no-unused-vars
-
+import  swal from 'sweetalert';
+const storage = getStorage(app);
+const auth = getAuth(app);
 export default {
   name: "Deneme",
   data() {
@@ -71,6 +74,7 @@ export default {
       image: null,
       imageurl: null,
       allImages: [],
+      imageCount : 0
     };
   },
   methods: {
@@ -80,22 +84,26 @@ export default {
     },
     uploadFile() {
 
-      const storage = getStorage(app);
-
+      const id = localStorage.getItem("uid");
+      const listRef = ref(storage, `${id}/${this.imageCount++}`);
       // eslint-disable-next-line no-unused-vars
-      uploadBytes(ref(storage, 'car/car'), this.image).then((snapshot) => {
+      uploadBytes(listRef, this.image).then((snapshot) => {
+        swal("Success", "File uploaded successfully", "success");
         console.log('Uploaded a blob or file!');
       });
     },
 
     showPicture() {
-      const storage = getStorage(app);
-      const listRef = ref(storage, 'car/');
+
+      const id = localStorage.getItem("uid");
+      const listRef = ref(storage, `${id}`);
       listAll(listRef).then((res) => {
         res.items.forEach((itemRef) => {
           // All the items under listRef.
+          this.imageCount++;
           console.log(itemRef._location.path);
-          this.imageurl = 'https://'+itemRef.storage._host +'/v0/b/'+itemRef.storage._bucket.bucket+'/o/car%2F'+itemRef.name+'?alt=media&token=a58a67e7-e125-4e9d-8747-53b5262c769e'
+          this.imageurl = `https://${itemRef.storage._host}/v0/b/${itemRef.storage._bucket.bucket}/o/${id}%2F${itemRef.name}?alt=media&token=301bf17b-9a3e-4565-9d13-c817426291a1`;
+          console.log(this.imageurl);
           this.allImages.push(this.imageurl);
         });
       });
@@ -103,6 +111,7 @@ export default {
   },
   mounted() {
     this.showPicture();
+    localStorage.setItem("uid",auth.currentUser.uid);
   }
 }
 </script>
