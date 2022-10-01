@@ -21,7 +21,7 @@
               height="200"
               width="300"
               elevation="8"
-              @click="toggle"
+              @click="toggle(team)"
           >
             <br/>
             <center>
