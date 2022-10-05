@@ -76,8 +76,8 @@ export default {
         },
         {
           id: 2,
-          text: "Koordinatörler",
-          path: "/club/1/coordinators",
+          text: "Antrenörler",
+          path: "/club/1/trainers",
           icon: "mdi-account-group"
         },
         {

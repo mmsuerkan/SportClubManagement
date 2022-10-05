@@ -138,8 +138,8 @@
 
 <script>
 import PanelHeader from "@/components/PanelHeader";
-import {getDatabase, ref, child,set,remove,onChildAdded,onChildRemoved,onChildChanged} from "firebase/database";
 
+import {getDatabase, ref, child,set,remove,onChildAdded,onChildRemoved,onChildChanged} from "firebase/database";
 export default {
   components: {PanelHeader},
   data() {
@@ -155,7 +155,7 @@ export default {
       ],
       studentList: [],
       trainer:
-        'pelinsu serimer, todo: beyaz card uzerinde olsun, en sağda trainer page routing button'
+          'pelinsu serimer, todo: beyaz card uzerinde olsun, en sağda trainer page routing button'
       ,
       editedIndex: -1,
       editedItem: {
@@ -207,7 +207,7 @@ export default {
     },
     save() {
       const db = getDatabase();
-      const reference = ref(db, 'students/1/1/1');
+      const reference = ref(db, '/students/efes/turkkonut/10-11');
 
       if (this.editedIndex > -1) {
         Object.assign(this.studentList[this.editedIndex], this.editedItem)
@@ -215,13 +215,13 @@ export default {
       } else {
         set(child(reference, this.editedItem.tckn), this.editedItem);
         this.studentList.push(this.editedItem)
-        }
+      }
       this.close()
     },
     deleteItemConfirm() {
       this.studentList.splice(this.editedIndex, 1);
       const db = getDatabase();
-      const reference = ref(db, 'students/1/1/1');
+      const reference = ref(db, '/students/efes/turkkonut/10-11');
       //this.users.splice(this.editedIndex, 1);
       remove(child(reference, this.editedItem.tckn));
       this.closeDelete()
@@ -236,8 +236,7 @@ export default {
   },
   created() {
     const db = getDatabase();
-    const reference = ref(db, 'students/1/1/1');
-    //const reference = ref(db, 'students/1/1/1');
+    const reference = ref(db, 'students/efes/turkkonut/10-11');
     onChildAdded(reference, (snapshot) => {
       const data = snapshot.val();
       this.users.push(data);

@@ -38,8 +38,8 @@
             <v-col>
               <v-card class="ma-2 secondary" shaped width="340px">
                 <v-card-title class="justify-center">
-                  <router-link :to=coordinatorPath style="text-decoration:none; color: white">
-                    <span> Kulüp koordinatörlerini incele </span>
+                  <router-link :to=trainerPath style="text-decoration:none; color: white">
+                    <span> Kulüp antrenörlerini incele </span>
                   </router-link>
                 </v-card-title>
               </v-card>
@@ -54,6 +54,7 @@
 <script>
 import moment from "moment";
 import ClubHeader from "@/views/club/ClubHeader";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -61,9 +62,11 @@ export default {
   },
   data() {
     return {
-      user: "logged userName",
-      clubid: 1
+      user: ""
     }
+  },
+  mounted() {
+    this.user = this.userName;
   },
   methods: {},
   computed: {
@@ -71,11 +74,12 @@ export default {
       return moment().seconds(0).milliseconds(0);
     },
     branchPath() {
-      return '/club/' + this.clubid + '/branches'
+      return '/club/' + 1 + '/branches'
     },
-    coordinatorPath() {
-      return '/club/' + this.clubid + '/coordinators'
-    }
+    trainerPath() {
+      return '/club/' + 1 + '/trainers'
+    },
+    ...mapGetters(["userName", "clubId"])
   }
 }
 </script>

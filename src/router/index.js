@@ -4,9 +4,10 @@ import Home from '../views/Home.vue'
 
 import ClubPanel from "@/views/club/ClubPanel";
 import BranchPanel from "@/views/branch/BranchPanel";
-import CoordinatorPanel from "@/views/coordinator/CoordinatorPanel";
+import TrainerPanel from "@/views/trainer/TrainerPanel";
 import GroupPanel from "@/views/group/GroupPanel";
 import StudentPanel from "@/views/student/StudentPanel";
+import Details from "@/views/student/Details"
 
 import StoragePage from "@/components/StoragePage";
 
@@ -29,9 +30,9 @@ const routes = [
     component: BranchPanel
   },
   {
-    path: '/club/:clubid/coordinators',
+    path: '/club/:clubid/trainers',
     name: 'Coordinators Page',
-    component: CoordinatorPanel
+    component: TrainerPanel
   },
   {
     path: '/branches/:branchid/groups',
@@ -47,6 +48,11 @@ const routes = [
     path: '/storage',
     name: 'Storage',
     component: StoragePage
+  },
+  {
+    path: '/deneme',
+    name: 'Details Page',
+    component: Details
   }
 ]
 

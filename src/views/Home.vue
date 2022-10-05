@@ -25,6 +25,7 @@
 // @ is an alias to /src
 import { initializeApp } from 'firebase/app';
 import { getAuth,signInWithEmailAndPassword } from 'firebase/auth';
+import { mapMutations } from 'vuex';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXl00PzhSpPFfMzhDNxcPvSEMNFKBRYhs",
@@ -60,7 +61,10 @@ export default {
           // Signed in
           // eslint-disable-next-line no-unused-vars
           const user = userCredential.user;
+          console.log(user)
           alert("Login Success");
+          this.setUserName(user.displayName);
+          //todo this.setClubId(user.clubId);
           this.$router.push({name: 'Club Page'});
           // ...
         })
@@ -71,7 +75,8 @@ export default {
           const errorMessage = error.message;
           alert(errorCode + " " + errorMessage);
         });
-    }
+    },
+    ...mapMutations(["setUserName", "setClubId"])
   }
 }
 </script>
