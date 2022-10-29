@@ -189,12 +189,10 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.editedIndex = this.studentList.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
     deleteItem(item) {
-      this.editedIndex = this.studentList.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
@@ -210,19 +208,16 @@ export default {
       const reference = ref(db, 'students/1/1/1');
 
       if (this.editedIndex > -1) {
-        Object.assign(this.studentList[this.editedIndex], this.editedItem)
-        set(child(reference, this.users[this.editedIndex].tckn), this.editedItem);
+        set(child(reference, this.studentList[this.editedIndex].tckn), this.editedItem);
       } else {
         set(child(reference, this.editedItem.tckn), this.editedItem);
-        this.studentList.push(this.editedItem)
         }
       this.close()
     },
     deleteItemConfirm() {
-      this.studentList.splice(this.editedIndex, 1);
       const db = getDatabase();
       const reference = ref(db, 'students/1/1/1');
-      //this.users.splice(this.editedIndex, 1);
+      //this.studentList.splice(this.editedIndex, 1);
       remove(child(reference, this.editedItem.tckn));
       this.closeDelete()
     },
@@ -240,16 +235,16 @@ export default {
     //const reference = ref(db, 'students/1/1/1');
     onChildAdded(reference, (snapshot) => {
       const data = snapshot.val();
-      this.users.push(data);
+      this.studentList.push(data);
     });
     onChildRemoved(reference, (snapshot) => {
       const data = snapshot.val();
-      this.users.splice(this.users.indexOf(data), 1);
+      this.studentList.splice(this.studentList.indexOf(data), 1);
     });
     onChildChanged(reference, (snapshot) => {
       const data = snapshot.val();
-      this.users.splice(this.users.indexOf(data), 1);
-      this.users.push(data);
+      this.studentList.splice(this.studentList.indexOf(data), 1);
+      this.studentList.push(data);
     });
   },
   computed: {

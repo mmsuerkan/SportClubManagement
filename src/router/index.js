@@ -25,22 +25,22 @@ const routes = [
     component: ClubPanel
   },
   {
-    path: '/club/:clubid/branches',
+    path: '/clubs/:clubid/branches',
     name: 'Branches Page',
     component: BranchPanel
   },
   {
-    path: '/club/:clubid/trainers',
+    path: '/clubs/:clubid/trainers',
     name: 'Coordinators Page',
     component: TrainerPanel
   },
   {
-    path: '/branches/:branchid/groups',
+    path: '/branches/:branchKey/groups',
     name: 'Groups Page',
     component: GroupPanel
   },
   {
-    path: '/groups/:groupid/students',
+    path: '/groups/:groupKey/students',
     name: 'Students Page',
     component: StudentPanel
   },

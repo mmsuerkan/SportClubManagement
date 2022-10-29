@@ -74,10 +74,10 @@ export default {
       return moment().seconds(0).milliseconds(0);
     },
     branchPath() {
-      return '/club/' + 1 + '/branches'
+      return '/clubs/' + this.clubId + '/branches'
     },
     trainerPath() {
-      return '/club/' + 1 + '/trainers'
+      return '/clubs/' + this.clubId + '/trainers'
     },
     ...mapGetters(["userName", "clubId"])
   }

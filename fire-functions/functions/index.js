@@ -6,7 +6,7 @@ const axios = require("axios");
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
     functions.logger.info("Hello logs!", {structuredData: true});
-    response.send("Hello from Firebase!");
+    response.send("Hello from Turgay!");
 });
 
 exports.api = functions.https.onRequest(async (request, response) => {

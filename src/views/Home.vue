@@ -64,7 +64,9 @@ export default {
           console.log(user)
           alert("Login Success");
           this.setUserName(user.displayName);
+          //todo username kullanarak user id al
           //todo this.setClubId(user.clubId);
+          this.setClubId(1);
           this.$router.push({name: 'Club Page'});
           // ...
         })

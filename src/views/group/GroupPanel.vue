@@ -6,6 +6,52 @@
 
     <!-- todo: coordinator user grup create edebilmeli -->
     <!-- todo: coordinator user ilk grup olusturmada gruba antrenor assign edebilmeli -->
+    <div>
+      <template>
+        <v-toolbar flat>
+          <v-spacer></v-spacer>
+          <v-dialog v-model="dialog" max-width="520px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  color="primary"
+                  dark
+                  class="mb-2"
+                  v-bind="attrs"
+                  v-on="on"
+              >
+                Yeni Grup Ekle
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">{{ formTitle }}</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container>
+                  <v-col>
+                    <v-row><span> Grup Bilgileri </span></v-row>
+                    <v-row sm="6" md="4">
+                      <v-text-field v-model="editedItem.groupName" label="Grup ismi" />
+                    </v-row>
+                  </v-col>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn class="accent" text @click="save">
+                  Kaydet
+                </v-btn>
+                <v-btn class="secondary" text @click="close">
+                  Vazgeç
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+    </div>
 
     <v-sheet class="mx-auto">
       <v-slide-group
@@ -78,32 +124,14 @@
 
 <script>
 import PanelHeader from "@/components/PanelHeader";
+import {getDatabase, onChildAdded, onChildChanged, onChildRemoved, push, ref, set} from "firebase/database";
 
 export default {
   components: {PanelHeader},
   data() {
     return {
       groupList: [
-        {
-          id: 1,
-          text: "Türkkonut - 10-11 Yaş Grubu"
-        },
-        {
-          id: 2,
-          text: "Türkkonut - 11-12 Yaş Grubu"
-        },
-        {
-          id: 3,
-          text: "Türkkonut - 12-13 Yaş Grubu"
-        },
-        {
-          id: 4,
-          text: "Türkkonut - 13-14 Yaş Grubu"
-        },
-        {
-          id: 5,
-          text: "Türkkonut - 14-15 Yaş Grubu"
-        }
+
       ],
       items: [
         {
@@ -129,20 +157,71 @@ export default {
       ],
       editedItems: [],
       isEdit: true,
-      show: false
+      show: false,
+      dialog: false,
+      editedItem: {
+        groupName: ''
+      },
     }
+  },
+  created() {
+    const db = getDatabase();
+    const reference = ref(db, this.$route.path);
+    onChildAdded(reference, (snapshot) => {
+      const data = snapshot.val();
+      this.groupList.push(
+          {
+            key: snapshot.key,
+            text: data.groupName
+          }
+      );
+    });
+    onChildChanged(reference, (snapshot) => {
+      const data = snapshot.val();
+      this.groupList.forEach((item) => {
+        if (item.key === snapshot.key) {
+          item.text = data.groupName;
+        }
+      });
+    });
+
+    onChildRemoved(reference, (snapshot) => {
+
+      this.groupList.forEach((item) => {
+        if (item.key === snapshot.key) {
+          this.groupList.splice(this.groupList.indexOf(item), 1);
+        }
+      });
+    });
   },
   methods: {
     edit() {
       this.isEdit = !this.isEdit;
     },
     toggle(item) {
-      let id = item.id
-      this.$router.push("/groups/" +{ id }+ "/students" )
+      this.$router.push("/groups/" + item.key + "/students" )
+    },
+    save() {
+      const db = getDatabase();
+      const teamRef = ref(db, this.$route.path);
+      const newTeamRef = push(teamRef);
+      set(newTeamRef, {
+        groupName: this.editedItem.groupName
+      });
+      this.close();
+    },
+    close() {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.groupList)
+        this.editedIndex = -1
+      })
     }
   },
-  mounted() {
-
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'Yeni Grup' : 'Grup Düzenle'
+    },
   }
 }
 </script>
